@@ -6,4 +6,4 @@ ENV FLASK_ENV=development
 ADD api-key.json /app/api-key.json
 ADD ticker-pull.py /app/ticker-pull.py
 ADD data.json /app/data.json
-CMD flask run
+CMD flask run --host 0.0.0.0
