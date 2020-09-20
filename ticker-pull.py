@@ -3,27 +3,27 @@ import requests
 from flask import Flask
 from flask import Response
 
-# r = requests.get('https://finnhub.io/api/v1/quote?symbol=AAPL')
-# print(r.json())
-
 app = Flask(__name__)
+
 
 @app.route('/pulltickers')
 def apitickerpull():
-    with open("/data/data.json","r") as read_file:
+    with open("/app/data.json", "r") as read_file:
         tickerdata = json.load(read_file)
-    results = pullnformat(tickerdata)
-    # results = requests.get('https://finnhub.io/api/v1/quote?symbol=AAPL')
-    # results = json.dumps(tickerdata)
+    with open("/app/api-key.json", "r") as read_file:
+        apikey = json.load(read_file)
+    results = pullnformat(tickerdata, apikey)
     return Response(results, mimetype='text/plain')
 
-def pullnformat( tickerdata ):
-    results = ''
+
+def pullnformat(tickerdata, apikey):
+    results = 'api:' + apikey['api'] + '\n'
     for x in tickerdata['ticker']:
-        results += requests.get('https://finnhub.io/api/v1/quote?symbol='+x)
-      
+        r = requests.get('https://finnhub.io/api/v1/quote?symbol=' +
+                         x + '&token=' + apikey['api'])
+        results += x + ':' + json.dumps(r.json()) + '\n'
     return results
-        
+
+
 if __name__ == 'main':
     app.run(debug=True, host='0.0.0.0')
-
