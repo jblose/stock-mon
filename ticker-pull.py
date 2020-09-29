@@ -17,11 +17,14 @@ def apitickerpull():
 
 
 def pullnformat(tickerdata, apikey):
-    results = 'api:' + apikey['api'] + '\n'
+    results = ''
     for x in tickerdata['ticker']:
         r = requests.get('https://finnhub.io/api/v1/quote?symbol=' +
                          x + '&token=' + apikey['api'])
-        results += x + ':' + json.dumps(r.json()) + '\n'
+        for y in r.json():
+            out = y
+            results += 'stock_mon_' + out + \
+                '{ticker=' + x + '} ' + json.dumps(r.json()[y]) + '\n'
     return results
 
 
