@@ -7,6 +7,10 @@ run:
 	$(CONT) build -t stock-mon-exporter .
 	$(CONT) run -p 5000:5000 stock-mon-exporter
 
+# No clue yet what the podman equivalent is.
+compose-up:
+	$(CONT) build -t stock-mon-exporter .
+	docker-compose up
 
 ifdef ENCRYPTION_PASS
 decrypt-secrets:
