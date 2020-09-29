@@ -24,7 +24,7 @@ def pullnformat(tickerdata, apikey):
         for y in r.json():
             out = y
             results += 'stock_mon_' + out + \
-                '{ticker=' + x + '} ' + json.dumps(r.json()[y]) + '\n'
+                '{ticker="' + x + '"} ' + json.dumps(r.json()[y]) + '\n'
     return results
 
 
